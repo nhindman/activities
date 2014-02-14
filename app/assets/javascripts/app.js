@@ -14,10 +14,11 @@ var FormView = Backbone.View.extend({
   addCallback: function(e){
     e.preventDefault();
 
-    activitiesList.add({
+    activitiesListView.collection.add({
       description: $('#new_activity_input').val()
     })
-    console.log(activitiesList)
+
+    console.log(activitiesListView.collection)
   },
 
   el: function() {
@@ -38,24 +39,61 @@ var Activity = Backbone.Model.extend({
 
 var ActivitiesList = Backbone.Collection.extend({
 
-model: Activity,  
+
+
+model: Activity  
 
 // url: "/activities"
 
 })
 
 var ActivityView = Backbone.View.extend({
-
+  initialize: function(){
+    this.render();
+  },
+  render: function(){
+    this.$el.html(this.model.attributes.description);
+    return this
+  }
 })
 
 var ActivitiesListView = Backbone.View.extend ({
+  initialize: function(){
+      this.collection = new ActivitiesList();
+      this.activityViews = []
 
+      this.listenTo(this.collection, "all", this.render)
+  },
+
+  el: function(){
+    return $('#activity_list')
+  },
+
+  render: function(){
+    var self = this;
+    _.each(this.activityViews, function(view){
+      view.remove();
+    })
+    this.activityViews = []
+    _.each(this.collection.models, function(activity){
+      var new_view = new ActivityView({ 
+        model: activity
+       });
+      self.activityViews.push(new_view)
+      self.$el.append(new_view.render().$el)
+
+    })
+  }
 })
 
 
 $(function (){
-  window.activitiesList = new ActivitiesList();
+  window.activitiesListView = new ActivitiesListView();
 
   window.formView = new FormView();
+
+  var activity = new Activity();
+
+  var activityView = new ActivityView({model: activity});
 
 })

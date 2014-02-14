@@ -16,11 +16,10 @@
 #
 development:
   adapter: postgresql
-  host: localhost
   encoding: unicode
   database: dating_development
   pool: 5
-  username: nhindman
+  username: postgres
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -46,18 +45,16 @@ development:
 # Do not set this db to the same as development or production.
 test:
   adapter: postgresql
-  host: localhost
   encoding: unicode
   database: dating_test
   pool: 5
-  username: nhindman
+  username: postgres
   password:
 
 production:
   adapter: postgresql
-  host: localhost
   encoding: unicode
   database: dating_production
   pool: 5
-  username: nhindman
+  username: postgres
   password:
