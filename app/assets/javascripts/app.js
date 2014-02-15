@@ -8,7 +8,7 @@ var FormView = Backbone.View.extend({
   events: {
     "click .add_button": "addCallback"
   },
-  
+
   addCallback: function(e){
     e.preventDefault();
 
@@ -40,6 +40,7 @@ var ActivityView = Backbone.View.extend({
   initialize: function(){
     this.render();
   },
+  template: _.template("<%= description %>"),
   render: function(){
     this.$el.html(this.model.attributes.description);
     return this
