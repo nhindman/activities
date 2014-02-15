@@ -2,19 +2,17 @@ var FormView = Backbone.View.extend({
   initialize: function() {
     this.render() 
   },
-
   render: function() {
 
   },
-
   events: {
     "click .add_button": "addCallback"
   },
-
+  
   addCallback: function(e){
     e.preventDefault();
 
-    activitiesListView.collection.add({
+    activitiesListView.collection.create({
       description: $('#new_activity_input').val()
     })
 
@@ -28,23 +26,14 @@ var FormView = Backbone.View.extend({
 })
 
 var Activity = Backbone.Model.extend({
-
   defaults: {
     description: "no description yet"
   }
-
-
-
 })
 
 var ActivitiesList = Backbone.Collection.extend({
-
-
-
-model: Activity  
-
-// url: "/activities"
-
+  model: Activity,  
+  url: "/activities"
 })
 
 var ActivityView = Backbone.View.extend({
@@ -74,7 +63,7 @@ var ActivitiesListView = Backbone.View.extend ({
     _.each(this.activityViews, function(view){
       view.remove();
     })
-    this.activityViews = []
+    this.activityViews = [] //there's a cleaner way to do this
     _.each(this.collection.models, function(activity){
       var new_view = new ActivityView({ 
         model: activity
@@ -92,7 +81,7 @@ $(function (){
 
   window.formView = new FormView();
 
-  var activity = new Activity();
+  window.activity = new Activity();
 
   var activityView = new ActivityView({model: activity});
 

@@ -8,6 +8,8 @@ class ActivitiesController < ApplicationController
   end
 
   def create
+    Activity.create(activity_params)
+    redirect_to root_path
   end
 
   def show
@@ -22,5 +24,10 @@ class ActivitiesController < ApplicationController
   def destroy
   end
 
+  private
+
+  def activity_params
+    params.require(:activity).permit(:description)
+  end
 
 end
