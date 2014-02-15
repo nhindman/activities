@@ -43,6 +43,11 @@ var ActivityView = Backbone.View.extend({
   template: _.template("description: <%= description %>"),
   render: function(){
     this.$el.html(this.template(this.model.attributes));
+    this.$el.append(
+      $("<button>", {class: "update", text: "update"})
+      ).append(
+      $("<button>", {class: "delete", text: "delete"})
+      )
     return this
   }
 })
