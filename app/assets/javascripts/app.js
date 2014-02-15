@@ -40,9 +40,9 @@ var ActivityView = Backbone.View.extend({
   initialize: function(){
     this.render();
   },
-  template: _.template("<%= description %>"),
+  template: _.template("description: <%= description %>"),
   render: function(){
-    this.$el.html(this.model.attributes.description);
+    this.$el.html(this.template(this.model.attributes));
     return this
   }
 })

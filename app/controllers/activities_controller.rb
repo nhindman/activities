@@ -8,8 +8,8 @@ class ActivitiesController < ApplicationController
   end
 
   def create
-    Activity.create(activity_params)
-    redirect_to root_path
+    @activity = Activity.create(activity_params)
+    render json: @activity
   end
 
   def show
