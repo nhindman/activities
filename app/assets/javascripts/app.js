@@ -51,8 +51,7 @@ var ActivityView = Backbone.View.extend({
   },
   events: {
     "click .delete": "deleteActivity",
-    "click .edit": "enterEdit",
-    "click .update_button": "exitEdit"
+    "click .edit": "enterEdit"
   },
   template: function(attrs){
     html_string = $('#activity_template').html();
@@ -67,30 +66,30 @@ var ActivityView = Backbone.View.extend({
     console.log("attempting to delete")
     this.model.destroy()
   },
-  enterEdit: function(e){
+  enterEdit: function(model){
+    var activityView = this
     // this.$('.edit_form').show()
     var html_string = $('#edit_form_template').html();
     var template_func = _.template(html_string)
     this.$el.html(template_func(this.model.attributes))
     // this.$el.append(_.template($('#edit_form_template').html())(this.model.attributes))
-  },
-  exitEdit: function(model){
-    // e.preventDefault();
+  
+    this.$('.update_button').on("click", function(e){
+      e.preventDefault();
 
-    // updates attributes of model
-    model.set({
-      "description": this.$('.edit_input').val(),
+      // updates attributes of model
+      activityView.model.set({
+        "description": activityView.$('.edit_input').val(),
+      })
+
+      // makes ajax call to server to "save" changes
+      activityView.model.save({}, {
+        url: "/activities/"+activityView.model.id
+      })
+
+      // unbinds this "update" callback from the button
+      $(this).off("click");
     })
-
-    // makes ajax call to server to "save" changes
-    model.save({}, {
-      url: "/activities/"+model.id
-    })
-
-    // unbinds this "update" callback from the button
-    // $(this).off("click");
-
-    console.log("did it update?")
 
   }
 })
@@ -119,7 +118,7 @@ var ActivitiesListView = Backbone.View.extend ({
         model: activity
        });
       self.activityViews.push(new_view)
-      self.$el.prepend(new_view.render().$el)
+      self.$el.prepend(new_view.render().$el) //this might be why it's going to the top when you reload page
 
     })
   }

@@ -20,11 +20,11 @@ class ActivitiesController < ApplicationController
   end
 
   def edit
-    @activity = Pokemon.find(params[:id])
+    @activity = Activity.find(params[:id])
   end
 
   def update
-    @activity = Pokemon.find(params[:id])
+    @activity = Activity.find(params[:id])
     @activity.update_attributes(activity_params)
     # render json: params
     render json: @activity
