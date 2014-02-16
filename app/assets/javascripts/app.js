@@ -32,6 +32,48 @@ var FormView = Backbone.View.extend({
 
 })
 
+
+var EditorFormView = Backbone.View.extend({
+  events: {
+    "click #save_outing_button": "bundleOuting"
+  },
+
+  bundleOuting: function(){
+
+  }
+
+})
+
+
+var Outing = Backbone.Model.extend({
+  defaults: {
+    name: "Date"
+  }
+})
+
+var OutingList = Backbone.Collection.extend({
+  model: Outing,
+  url: "/outings"
+})
+
+
+var OutingView = Backbone.View.extend({
+  initialize: function(){
+    this.render()
+  },
+  template: function(){
+
+  },
+  render: function(){
+
+  }
+})
+
+var OutlingListView = Backbone.View.extend({
+
+})
+
+
 var Activity = Backbone.Model.extend({
   defaults: {
     description: "no description yet"

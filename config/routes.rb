@@ -2,6 +2,7 @@ Dating::Application.routes.draw do
 
 
   resources :activities
+  resources :outings
 
   root to: "activities#index"
   # The priority is based upon order of creation: first created -> highest priority.

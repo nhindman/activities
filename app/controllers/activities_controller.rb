@@ -40,7 +40,6 @@ class ActivitiesController < ApplicationController
 
   def activity_params
     params.require(:activity).permit(:description)
-    params.require(:outing).permit(:name)
   end
 
 end
