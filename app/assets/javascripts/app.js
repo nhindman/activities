@@ -51,7 +51,8 @@ var ActivityView = Backbone.View.extend({
   },
   events: {
     "click .delete": "deleteActivity",
-    "click .edit": "enterEdit"
+    "click .description_line": "enterEdit",
+    "click .add_to_outing_button": "addToOutingEditor"
   },
   template: function(attrs){
     html_string = $('#activity_template').html();
@@ -91,6 +92,13 @@ var ActivityView = Backbone.View.extend({
       $(this).off("click");
     })
 
+  },
+  addToOutingEditor: function(){
+    console.log(this.model.attributes.description)
+
+    var html_string = $('#outing_editor_item_template').html();
+    var template_func = _.template(html_string)
+    $('#editor').append(template_func(this.model.attributes))
   }
 })
 

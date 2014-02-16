@@ -1,7 +1,7 @@
 class ActivitiesController < ApplicationController
 
   def index
-    @activities = Activity.all
+    @activities = Activity.all.order("id")
     respond_to do |format|
       format.html
       format.json { render json: @activities}
@@ -40,6 +40,7 @@ class ActivitiesController < ApplicationController
 
   def activity_params
     params.require(:activity).permit(:description)
+    params.require(:outing).permit(:name)
   end
 
 end

@@ -1,0 +1,5 @@
+#editor_container{
+  min-height: 50px;
+  margin: 5px;
+  border: 1px solid black;
+}
