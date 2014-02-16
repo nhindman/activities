@@ -40,7 +40,11 @@ var ActivityView = Backbone.View.extend({
   initialize: function(){
     this.render();
   },
-  template: _.template("description: <%= description %>"),
+  template: function(attrs){
+    html_string = $('#activity_template').html();
+    var template_func = _.template(html_string)
+    return template_func(attrs)
+  },
   render: function(){
     this.$el.html(this.template(this.model.attributes));
     return this
@@ -70,7 +74,7 @@ var ActivitiesListView = Backbone.View.extend ({
         model: activity
        });
       self.activityViews.push(new_view)
-      self.$el.append(new_view.render().$el)
+      self.$el.prepend(new_view.render().$el)
 
     })
   }
