@@ -13,7 +13,7 @@ var FormView = Backbone.View.extend({
     e.preventDefault();
 
     activitiesListView.collection.create({
-      description: $('#new_activity_input').value
+      description: $('#new_activity_input').val()
     });
 
     console.log(activitiesListView.collection)
@@ -46,6 +46,13 @@ var ActivitiesList = Backbone.Collection.extend({
 var ActivityView = Backbone.View.extend({
   initialize: function(){
     this.render();
+    // this.$('.edit_form').hide();
+
+  },
+  events: {
+    "click .delete": "deleteActivity",
+    "click .edit": "enterEdit",
+    "click .update_button": "exitEdit"
   },
   template: function(attrs){
     html_string = $('#activity_template').html();
@@ -54,12 +61,37 @@ var ActivityView = Backbone.View.extend({
   },
   render: function(){
     this.$el.html(this.template(this.model.attributes));
-    this.$el.append(
-      $("<button>", {class: "update", text: "update"})
-      ).append(
-      $("<button>", {class: "delete", text: "delete"})
-      )
     return this
+  },
+  deleteActivity: function(){
+    console.log("attempting to delete")
+    this.model.destroy()
+  },
+  enterEdit: function(e){
+    // this.$('.edit_form').show()
+    var html_string = $('#edit_form_template').html();
+    var template_func = _.template(html_string)
+    this.$el.html(template_func(this.model.attributes))
+    // this.$el.append(_.template($('#edit_form_template').html())(this.model.attributes))
+  },
+  exitEdit: function(model){
+    // e.preventDefault();
+
+    // updates attributes of model
+    model.set({
+      "description": this.$('.edit_input').val(),
+    })
+
+    // makes ajax call to server to "save" changes
+    model.save({}, {
+      url: "/activities/"+model.id
+    })
+
+    // unbinds this "update" callback from the button
+    // $(this).off("click");
+
+    console.log("did it update?")
+
   }
 })
 
@@ -68,6 +100,7 @@ var ActivitiesListView = Backbone.View.extend ({
       this.collection = new ActivitiesList();
       this.activityViews = []
 
+      this.collection.fetch();
       this.listenTo(this.collection, "all", this.render)
   },
 
