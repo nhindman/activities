@@ -13,11 +13,18 @@ var FormView = Backbone.View.extend({
     e.preventDefault();
 
     activitiesListView.collection.create({
-      description: $('#new_activity_input').val()
-    })
+      description: $('#new_activity_input').value
+    });
 
     console.log(activitiesListView.collection)
+    this.resetValues();
   },
+
+  resetValues: function() {
+    _.each( this.$('input'), function(input){
+      $(input).val('');
+    })
+  },  
 
   el: function() {
     return $('#new_activity_form')
