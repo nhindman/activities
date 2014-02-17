@@ -1,19 +1,22 @@
 <div id="main_container">
-<h1>Date Lister</h1>
+  <h1>Date Lister</h1>
   <form id="new_activity_form">
     <input type="text" id="new_activity_input" name="new_activity_input" placeholder="enter activity">
     <button class="add_button">Add</button>
   </form>
+
   <div id="activity_list"></div>
 
-</div>
+  <div id="editor_container">
+    <div id="editor">
+    </div>
 
-
-<div id="editor_container">
-  <div id="editor">
+    <form>
+      <button class="save_outing_button">Save Date</button>
+    </form>
+    
   </div>
-  <button id="save_outing_button">Save Date</button>
-</div>
 
+</div>
 
 <%= render text: File.read("app/assets/javascripts/templates.js").html_safe %>

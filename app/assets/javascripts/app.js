@@ -1,6 +1,6 @@
 var FormView = Backbone.View.extend({
   initialize: function() {
-    this.render() 
+    this.render();
   },
   render: function() {
 
@@ -34,14 +34,49 @@ var FormView = Backbone.View.extend({
 
 
 var EditorFormView = Backbone.View.extend({
-  events: {
-    "click #save_outing_button": "bundleOuting"
+  initialize: function(){
+    $(".save_outing_button").on("click", this.bundleOuting)
+    this.render();
   },
 
-  bundleOuting: function(){
+  render: function(){
+    var self = this;
+    this.stagingList = []
+  },
 
+  // events: {
+  //   "click .save_outing_button": "bundleOuting"
+  // },
+
+  bundleOuting: function(e){
+    e.preventDefault();
+    var new_outing = new Outing();
+    outingList.create({
+      name: new_outing.attributes.name
+      })
+    _.each(editorFormView.stagingList, function(activity){
+      console.log(activity.attributes.description);
+      bundlingCollection.create({
+        outing_id: new_outing.id,
+        activity_id: activity.id
+      })
+    })
   }
 
+
+
+
+
+})
+
+
+var Bundling = Backbone.Model.extend({
+
+})
+
+BundlingCollection = Backbone.Collection.extend({
+  model: Bundling,
+  url: "/bundlings"
 })
 
 
@@ -69,7 +104,10 @@ var OutingView = Backbone.View.extend({
   }
 })
 
-var OutlingListView = Backbone.View.extend({
+var OutingListView = Backbone.View.extend({
+  initialize: function(){
+    this.collection = new OutingList();
+  }
 
 })
 
@@ -141,6 +179,7 @@ var ActivityView = Backbone.View.extend({
     var html_string = $('#outing_editor_item_template').html();
     var template_func = _.template(html_string)
     $('#editor').append(template_func(this.model.attributes))
+    editorFormView.stagingList.push(this.model)
   }
 })
 
@@ -177,8 +216,12 @@ var ActivitiesListView = Backbone.View.extend ({
 
 $(function (){
   window.activitiesListView = new ActivitiesListView();
+  window.outingListView = new OutingListView();
+  window.outingList = new OutingList();
+  window.bundlingCollection = new BundlingCollection();
 
   window.formView = new FormView();
+  window.editorFormView = new EditorFormView();
 
   window.activity = new Activity();
 
